@@ -54,7 +54,7 @@ const resolve = async (parent, { fbSlug, cloneId, release }, context) => {
       logger.debug('authorize -> Assigned clon updated on the Trading System.')
       return tradingSystem.access_token
     } else {
-      throw new WrongArgumentsError('Trading System not found.')
+      logger.warn('authorize -> Trading System not found.')
     }
   } catch (error) {
     logger.error('authorize -> Error assigning clon to Trading System. %s', error.stack)
