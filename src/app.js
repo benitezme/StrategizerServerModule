@@ -26,6 +26,7 @@ const server = new ApolloServer({
   context: ({ req }) => ({
     userId: req.headers.userid,
     authorization: req.headers.authorization,
+    access_token: req.headers.access_token
   }),
   formatError: error => ({
     code: error.extensions.exception.code,

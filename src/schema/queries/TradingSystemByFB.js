@@ -2,7 +2,7 @@ import {
   GraphQLNonNull,
   GraphQLString,
 } from 'graphql';
-import { DatabaseError } from '../../errors';
+import { DatabaseError, AuthentificationError } from '../../errors';
 import { TradingSystemType } from '../types';
 import { TradingSystem } from '../../models';
 
@@ -10,7 +10,7 @@ const args = {
   fbSlug: { type: new GraphQLNonNull(GraphQLString) },
 };
 
-const resolve = (parent, { fbSlug }) => new Promise((res, rej) => {
+const resolve = (parent, { fbSlug }, context) => new Promise((res, rej) => {
   TradingSystem.findOne({ fbSlug }).exec((err, tradingSystem) => {
     if (err) {
       rej(err);
@@ -20,7 +20,10 @@ const resolve = (parent, { fbSlug }) => new Promise((res, rej) => {
       rej(new DatabaseError('None of the tradingSystem are linked to that fbSlug'));
       return;
     }
-    res(tradingSystem);
+    if(tradingSystem.access_token === context.access_token)
+      res(tradingSystem);
+    else
+      rej(new AuthentificationError());
   });
 });
 

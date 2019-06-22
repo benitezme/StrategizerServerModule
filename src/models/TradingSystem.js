@@ -13,6 +13,7 @@ const tradingSystemSchema = new Schema(
       updatedAt: Date,
       data: Object,
     }],
+    access_token:String
   },
   {
     timestamps: true,
