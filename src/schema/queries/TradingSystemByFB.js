@@ -11,6 +11,10 @@ const args = {
 };
 
 const resolve = (parent, { fbSlug }, context) => new Promise((res, rej) => {
+  if (!context.userId) {
+    throw new AuthentificationError()
+  }
+
   TradingSystem.findOne({ fbSlug }).exec((err, tradingSystem) => {
     if (err) {
       rej(err);
@@ -20,10 +24,7 @@ const resolve = (parent, { fbSlug }, context) => new Promise((res, rej) => {
       rej(new DatabaseError('None of the tradingSystem are linked to that fbSlug'));
       return;
     }
-    if(tradingSystem.access_token === context.access_token)
-      res(tradingSystem);
-    else
-      rej(new AuthentificationError());
+    res(tradingSystem);
   });
 });
 

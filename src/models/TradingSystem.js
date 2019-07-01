@@ -12,8 +12,7 @@ const tradingSystemSchema = new Schema(
     history: [{
       updatedAt: Date,
       data: Object,
-    }],
-    access_token:String
+    }]
   },
   {
     timestamps: true,
