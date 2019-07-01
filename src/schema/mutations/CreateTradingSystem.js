@@ -13,8 +13,10 @@ export const args = {
 };
 
 const resolve = (parent, { fbSlug, tradingSystem }) => {
+
   if (tradingSystem === undefined) {
-    tradingSystem = defaultTradingSystem;
+    tradingSystem = {}
+    tradingSystem.data = defaultTradingSystem;
   }
   tradingSystem.fbSlug = fbSlug;
   tradingSystem.history = [];
