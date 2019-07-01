@@ -3,6 +3,7 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import schema from './schema';
 import wrongPreshared from './errors/notAllowed.json';
+import db from './db';
 
 const app = express();
 
@@ -25,8 +26,7 @@ const server = new ApolloServer({
   },
   context: ({ req }) => ({
     userId: req.headers.userid,
-    authorization: req.headers.authorization,
-    access_token: req.headers.access_token
+    authorization: req.headers.authorization
   }),
   formatError: error => ({
     code: error.extensions.exception.code,
@@ -39,6 +39,17 @@ const server = new ApolloServer({
 server.applyMiddleware({
   app,
   cors: true,
+});
+
+db.on('error', (err) => {
+  console.log(err);
+});
+db.once('open', () => {
+  console.log('Connected to the DB.');
+});
+
+app.listen(process.env.PORT, () => {
+  console.log(`Listening on port ${process.env.PORT}`);
 });
 
 export default app;
