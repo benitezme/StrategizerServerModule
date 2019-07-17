@@ -4,12 +4,14 @@ import {
 
 import CreateTradingSystemMutation from './CreateTradingSystem';
 import EditTradingSystemMutation from './EditTradingSystem';
+import DeleteTradingSystemMutation from './DeleteTradingSystem';
 
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: Object.assign(
     CreateTradingSystemMutation,
-    EditTradingSystemMutation
+    EditTradingSystemMutation,
+    DeleteTradingSystemMutation
   ),
 });
 
